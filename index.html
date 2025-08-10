@@ -1,11 +1,335 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Csá</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Profil — Áron</title>
+<style>
+  :root{
+    --bg-1: #030418;
+    --bg-2: #07132a;
+    --card: rgba(255,255,255,0.04);
+    --accent: #2b6fff;
+    --accent-2: #3bd5ff;
+    --glass: rgba(255,255,255,0.03);
+    --text: #dfe9ff;
+    --muted: #9fb0d9;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(43,111,255,0.06), transparent 10%),
+                radial-gradient(900px 500px at 90% 90%, rgba(59,213,255,0.03), transparent 10%),
+                linear-gradient(180deg,var(--bg-1),var(--bg-2));
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+  }
+
+  .container{
+    width:100%;
+    max-width:1100px;
+    height:560px;
+    display:grid;
+    grid-template-columns: 360px 1fr;
+    gap:30px;
+    backdrop-filter: blur(6px);
+    border-radius:18px;
+    box-shadow: 0 10px 40px rgba(2,6,23,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+    padding:28px;
+    position:relative;
+    overflow:hidden;
+  }
+
+  .blob{
+    position:absolute;
+    filter: blur(60px);
+    opacity:0.12;
+    pointer-events:none;
+    mix-blend-mode:screen;
+  }
+  .blob.one{width:420px;height:420px;background:linear-gradient(140deg,var(--accent),transparent);left:-80px;top:-80px;transform:rotate(20deg)}
+  .blob.two{width:320px;height:320px;background:linear-gradient(140deg,var(--accent-2),transparent);right:-80px;bottom:-80px;transform:rotate(-10deg)}
+
+  .left{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:14px;
+    padding:30px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    align-items:flex-start;
+    justify-content:center;
+    position:relative;
+    overflow:visible;
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .avatar-wrap{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    width:100%;
+  }
+
+  .avatar{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    overflow:hidden;
+    flex:0 0 120px;
+    box-shadow: 0 8px 30px rgba(11,18,44,0.7);
+    border: 2px solid rgba(255,255,255,0.04);
+    transform: translateZ(0);
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .name-block{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .name{
+    font-size:1.6rem;
+    font-weight:700;
+    letter-spacing:0.4px;
+    color:var(--text);
+  }
+  .title{
+    color:var(--muted);
+    font-size:0.95rem;
+  }
+
+  .meta{
+    margin-top:6px;
+    color:var(--muted);
+    font-size:0.92rem;
+    line-height:1.4;
+  }
+
+  .stats{
+    margin-top:14px;
+    display:flex;
+    gap:8px;
+  }
+  .stat{
+    background:var(--glass);
+    padding:8px 12px;
+    border-radius:10px;
+    font-size:0.9rem;
+    color:var(--muted);
+    border:1px solid rgba(255,255,255,0.02);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .stat:hover{transform:translateY(-6px); box-shadow:0 10px 30px rgba(15,25,55,0.45)}
+
+  .right{
+    background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+    border-radius:14px;
+    padding:26px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+
+  .right-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .right-header h3{
+    margin:0;
+    color:var(--text);
+    letter-spacing:0.3px;
+  }
+  .small-muted{color:var(--muted);font-size:0.9rem}
+
+  .links{
+    margin-top:8px;
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:14px;
+    align-content:start;
+  }
+
+  .link-card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:12px;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    min-height:92px;
+    justify-content:center;
+    text-decoration:none;
+    color:var(--text);
+    border:1px solid rgba(255,255,255,0.02);
+    transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .link-card:hover{
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(6,12,30,0.7);
+  }
+  .link-title{font-weight:600}
+  .link-desc{color:var(--muted);font-size:0.9rem}
+
+  .link-card::after{
+    content:"";
+    position:absolute;
+    left:-40%;
+    top:-30%;
+    width:160%;
+    height:220%;
+    background:linear-gradient(120deg, transparent, rgba(59,213,255,0.06), transparent);
+    transform: rotate(20deg);
+    transition: all .6s ease;
+  }
+  .link-card:hover::after{left: -10%}
+
+  @media (max-width:880px){
+    html, body { height: auto; } /* Mobilon engedjük a görgetést */
+    .container{
+      grid-template-columns:1fr;
+      height:auto; /* ne legyen fix magasság mobilon */
+      padding:20px;
+    }
+    .avatar{width:96px;height:96px}
+    .links{grid-template-columns: 1fr}
+  }
+
+  @keyframes floaty {
+    0%{transform: translateY(0)}
+    50%{transform: translateY(-6px)}
+    100%{transform: translateY(0)}
+  }
+  .link-card:nth-child(odd){animation: floaty 6s ease-in-out infinite}
+  .link-card:nth-child(even){animation: floaty 5s ease-in-out infinite}
+
+  .avatar-wrap.tilt { perspective: 900px; }
+  .avatar-inner { transition: transform .18s ease; transform-style: preserve-3d; }
+  .glow {
+    position:absolute;
+    right:18px;
+    top:14px;
+    width:12px;height:12px;border-radius:50%;
+    background:linear-gradient(45deg,var(--accent),var(--accent-2));
+    box-shadow:0 6px 18px rgba(43,111,255,0.18), 0 0 30px rgba(59,213,255,0.08);
+    border:1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer{
+    margin-top:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+  }
+  .btn{
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.04);
+    padding:8px 12px;
+    border-radius:10px;
+    color:var(--muted);
+    font-size:0.9rem;
+    cursor:pointer;
+    transition:all .18s ease;
+  }
+  .btn:hover{transform:translateY(-4px); color:var(--text); border-color: rgba(59,213,255,0.18)}
+</style>
 </head>
 <body>
-    <p>Csinálom csak nem most</p>
+  <div class="container" id="main">
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+
+    <aside class="left">
+      <div class="avatar-wrap tilt" id="tiltArea">
+        <div class="avatar-inner" style="display:flex;align-items:center;gap:14px;width:100%;">
+          <div class="avatar">
+            <img src="profile.jpg" alt="Profilkép">
+          </div>
+          <div class="name-block">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div>
+                <div class="name">Áron Kiss</div>
+                <div class="title">Fejlesztő · Diák · Gamer</div>
+              </div>
+              <div class="glow"></div>
+            </div>
+            <div class="meta">Rövid bemutatkozó: programozást és webdizájnt szeretek. Itt találsz minden fontos linket.</div>
+          </div>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat">Kor: 15</div>
+        <div class="stat">Nyelvek: HU / EN</div>
+        <div class="stat">Eszköz: Desktop</div>
+      </div>
+      <div class="footer">
+        <button class="btn" onclick="copyEmail()">E-mail másolása</button>
+        <div class="small-muted">Utolsó frissítés: 2025.08.10</div>
+      </div>
+    </aside>
+
+    <main class="right">
+      <div class="right-header">
+        <h3>Oldalaim</h3>
+        <div class="small-muted">Gyors linkek</div>
+      </div>
+      <div class="links">
+        <a class="link-card" href="https://discord.gg" target="_blank">
+          <div class="link-title">Discord szerver</div>
+          <div class="link-desc">Csatlakozz a közösséghez, chattezz és játsszunk együtt.</div>
+        </a>
+        <a class="link-card" href="https://github.com" target="_blank">
+          <div class="link-title">GitHub</div>
+          <div class="link-desc">Kódjaim és projektek — nézd meg a repókat.</div>
+        </a>
+        <a class="link-card" href="#" target="_blank">
+          <div class="link-title">YouTube csatorna</div>
+          <div class="link-desc">Videók és szerver bemutatók.</div>
+        </a>
+        <a class="link-card" href="#" target="_blank">
+          <div class="link-title">Személyes weboldal</div>
+          <div class="link-desc">Portfólió, blog és elérhetőségek.</div>
+        </a>
+      </div>
+    </main>
+  </div>
+
+<script>
+(function(){
+  const area = document.getElementById('tiltArea');
+  const inner = area.querySelector('.avatar-inner');
+  function handleMove(e){
+    const rect = area.getBoundingClientRect();
+    const x = ((e.clientX || e.touches?.[0]?.clientX) - rect.left) / rect.width;
+    const y = ((e.clientY || e.touches?.[0]?.clientY) - rect.top) / rect.height;
+    const rx = (y - 0.5) * 12;
+    const ry = (x - 0.5) * -12;
+    inner.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
+  }
+  function reset(){ inner.style.transform = 'rotateX(0) rotateY(0)'; }
+  area.addEventListener('mousemove', handleMove);
+  area.addEventListener('touchmove', handleMove);
+  area.addEventListener('mouseleave', reset);
+  area.addEventListener('touchend', reset);
+})();
+function copyEmail(){
+  const email = 'aron@example.com';
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(email).then(()=>alert('E-mail másolva: ' + email));
+  } else {
+    prompt('Másold ki az e-mailt:', email);
+  }
+}
+</script>
 </body>
 </html>
