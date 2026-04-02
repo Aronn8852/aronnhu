@@ -1,295 +1,432 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="aronn.png" type="image/png">
   <title>Aronn</title>
-  <meta name="description" content="Aronn hivatalos oldala • Webfejlesztés, projektek, Minecraft szerverek, kreatív munkák és egyedi megoldások.">
-  <meta name="keywords" content="Aronn, aronn.hu, webfejlesztés, minecraft, minecraft szerver, projektek, AstralixMC, ComboFly, gifx.hu, design, fejlesztés">
+
+  <meta name="description"
+    content="Aronn hivatalos oldala • Webfejlesztés, projektek, Minecraft szerverek, kreatív munkák és egyedi megoldások.">
+  <meta name="keywords"
+    content="Aronn, aronn.hu, webfejlesztés, minecraft, minecraft szerver, projektek, AstralixMC, ComboFly, gifx.hu, design, fejlesztés">
   <meta name="author" content="Aronn">
   <meta name="robots" content="index, follow">
+
   <meta property="og:title" content="Aronn">
   <meta property="og:description" content="Nézd meg a munkáimat: weboldalak és Minecraft projektek">
   <meta property="og:image" content="https://aronn.hu/aronn.png">
   <meta property="og:url" content="https://aronn.hu">
   <meta property="og:type" content="website">
 
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Syne+Mono&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --bg: #0b0e17;
-      --blue: #3b82f6;
-      --text: #c8d3e8;
-      --dim: #4a5470;
-      --white: #eef2ff;
-    }
-
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      line-height: 1.6;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0a1628 0%, #1a2744 50%, #0f2942 100%);
+      color: #e8f1f5;
+      overflow-x: hidden;
       min-height: 100vh;
-      padding: 0 24px;
-      max-width: 720px;
-      margin: 0 auto;
+      position: relative;
+      margin: 0;
+      padding: 0;
     }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 32px 0 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .logo {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.9rem;
-      color: var(--blue);
-      letter-spacing: 0.05em;
-    }
-    .header-right {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--dim);
+    .background-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
     }
 
-    .hero {
-      padding: 80px 0 60px;
-    }
-
-    .avatar {
-      width: 64px;
-      height: 64px;
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.9), rgba(96, 165, 250, 0.5));
       border-radius: 50%;
-      background: url('aronn.png') center/cover no-repeat, #1a2035;
-      border: 2px solid rgba(59,130,246,0.4);
-      margin-bottom: 36px;
+      animation: cosmicFloat 10s ease-in-out infinite;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
     }
 
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(3.2rem, 10vw, 5.5rem);
-      font-weight: 800;
-      color: var(--white);
-      line-height: 1;
-      letter-spacing: -0.03em;
-      margin-bottom: 8px;
-    }
-    h1 .blue { color: var(--blue); }
+    @keyframes cosmicFloat {
 
-    .tagline {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.82rem;
-      color: var(--dim);
-      margin-top: 18px;
-      letter-spacing: 0.04em;
-    }
-    .tagline span { color: var(--blue); }
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 0;
+      }
 
-    .about {
-      margin-top: 40px;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      max-width: 480px;
-      color: var(--text);
-      font-size: 0.95rem;
-      line-height: 1.75;
+      10%,
+      90% {
+        opacity: 1;
+      }
+
+      50% {
+        transform: translate(-80px, -150px) rotate(360deg) scale(1.5);
+      }
     }
 
-    .section-header {
-      margin-top: 80px;
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
+    .particle-effect {
+      position: fixed;
+      z-index: 0;
+      color: rgba(139, 92, 246, 0.6);
+      font-size: 1.2em;
+      opacity: 0.7;
+      pointer-events: none;
+      animation: drift linear forwards;
     }
-    .section-header h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.75rem;
+
+    @keyframes drift {
+      to {
+        transform: translateY(100vh) translateX(50px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-section {
+      text-align: center;
+      padding: 100px 20px 60px;
+    }
+
+    .profile-img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 4px solid rgba(59, 130, 246, 0.7);
+      box-shadow: 0 0 50px rgba(59, 130, 246, 0.8), 0 0 80px rgba(96, 165, 250, 0.5);
+      background: url('aronn.png') center/cover no-repeat;
+      margin: 0 auto 30px;
+      transition: 0.3s;
+      animation: etherealGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes etherealGlow {
+
+      0%,
+      100% {
+        box-shadow: 0 0 50px rgba(59, 130, 246, 0.8), 0 0 80px rgba(96, 165, 250, 0.5);
+        filter: brightness(1);
+      }
+
+      50% {
+        box-shadow: 0 0 70px rgba(96, 165, 250, 0.9), 0 0 100px rgba(59, 130, 246, 0.6);
+        filter: brightness(1.1);
+      }
+    }
+
+    .profile-img:hover {
+      transform: scale(1.08) rotate(-3deg);
+      box-shadow: 0 0 100px rgba(59, 130, 246, 1), 0 0 120px rgba(96, 165, 250, 0.8);
+    }
+
+    .hero-title {
+      font-size: 3rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--dim);
-      white-space: nowrap;
-    }
-    .section-header::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(255,255,255,0.05);
+      background: linear-gradient(135deg, #3b82f6, #60a5fa, #06b6d4, #3b82f6);
+      background-size: 300% auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fluidGradient 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6));
+      margin-bottom: 15px;
     }
 
-    a.project {
-      padding: 28px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      display: grid;
-      grid-template-columns: 48px 1fr auto;
-      align-items: start;
-      gap: 20px;
+    @keyframes fluidGradient {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .hero-subtitle {
+      color: #cbd5e1;
+      font-size: 1.2rem;
+      text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .section-title {
+      font-size: 2.4rem;
+      color: #dbeafe;
+      text-align: center;
+      margin-top: 80px;
+      margin-bottom: 60px;
+      position: relative;
+      text-shadow: 0 0 25px rgba(59, 130, 246, 0.7);
+      letter-spacing: 1px;
+    }
+
+    .section-title::after {
+      content: "✦";
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      color: #3b82f6;
+      animation: starPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes starPulse {
+
+      0%,
+      100% {
+        opacity: 0.6;
+        transform: translateX(-50%) scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.2);
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 41, 66, 0.8);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #3b82f6, #60a5fa);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #60a5fa, #3b82f6);
+    }
+
+    * {
+      scrollbar-width: auto;
+      scrollbar-color: #3b82f6 rgba(15, 41, 66, 0.8);
+    }
+
+    .card {
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(29, 78, 216, 0.3));
+      border: 2px solid rgba(59, 130, 246, 0.5);
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.2);
+      height: 100%;
+    }
+
+    .card:hover {
+      transform: translateY(-12px) scale(1.02);
+      border-color: rgba(96, 165, 250, 0.8);
+      box-shadow: 0 20px 60px rgba(59, 130, 246, 0.6), 0 0 40px rgba(96, 165, 250, 0.5);
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.6), rgba(29, 78, 216, 0.5));
+    }
+
+    .card-title {
+      color: #bfdbfe;
+      text-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .card-text {
+      color: #cbd5e1;
+      margin-bottom: 20px;
+    }
+
+    .project-icon {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 3px solid #3b82f6;
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.7), 0 0 50px rgba(139, 92, 246, 0.4);
+      margin: 0 auto 20px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      animation: iconFloat 3s ease-in-out infinite;
+      transition: 0.3s;
+    }
+
+    @keyframes iconFloat {
+
+      0%,
+      100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-10px) rotate(5deg);
+      }
+    }
+
+    .project-icon:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 0 50px rgba(59, 130, 246, 0.9), 0 0 70px rgba(139, 92, 246, 0.6);
+    }
+
+    .project-icon.thorn {
+      background-image: url('astralixmc.png');
+    }
+
+    .project-icon.iaronn {
+      background-image: url('gifxhu.png');
+    }
+
+    .btn-gradient {
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      border: none;
+      color: white;
+      border-radius: 12px;
+      padding: 12px 28px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+      position: relative;
+      overflow: hidden;
       text-decoration: none;
-      color: inherit;
+      display: inline-block;
     }
-    a.project:first-of-type,
-    .project-disabled:first-of-type {
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    a.project:hover .project-name { color: var(--blue); }
 
-    .project-disabled {
-      padding: 28px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      display: grid;
-      grid-template-columns: 48px 1fr auto;
-      align-items: start;
-      gap: 20px;
-      opacity: 0.4;
+    .btn-gradient::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .btn-gradient:hover::before {
+      left: 100%;
+    }
+
+    .btn-gradient:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 35px rgba(59, 130, 246, 0.7), 0 0 30px rgba(96, 165, 250, 0.6);
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      color: white;
+    }
+
+    .btn-gradient.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
       pointer-events: none;
     }
 
-    .project-thumb {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
-      background-size: cover;
-      background-position: center;
-      background-color: #131828;
-      border: 1px solid rgba(255,255,255,0.07);
-      flex-shrink: 0;
-    }
-    .project-thumb.astralixmc { background-image: url('astralixmc.png'); }
-    .project-thumb.gifxhu     { background-image: url('gifxhu.png'); }
-
-    .project-name {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--white);
-      transition: color 0.2s;
-      margin-bottom: 4px;
-    }
-    .project-desc {
-      font-size: 0.85rem;
-      color: var(--dim);
-      line-height: 1.5;
-    }
-
-    .project-meta { text-align: right; flex-shrink: 0; }
-    .badge {
-      display: inline-block;
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      padding: 3px 10px;
-      border-radius: 4px;
-      text-transform: uppercase;
-    }
-    .badge-live {
-      color: #4ade80;
-      background: rgba(74,222,128,0.08);
-      border: 1px solid rgba(74,222,128,0.2);
-    }
-    .badge-soon {
-      color: var(--dim);
-      background: rgba(74,82,112,0.15);
-      border: 1px solid rgba(74,82,112,0.25);
-    }
-    .project-url {
-      display: block;
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--dim);
-      margin-top: 6px;
-    }
-
     footer {
-      margin-top: 100px;
-      padding: 28px 0 40px;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--dim);
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 2px solid rgba(59, 130, 246, 0.3);
+      color: #94a3b8;
+      margin-top: 80px;
+      font-size: 0.9rem;
     }
 
-    .hero, .about, .section-header, a.project, .project-disabled, footer {
-      opacity: 0;
-      animation: show 0.5s ease forwards;
-    }
-    .hero                { animation-delay: 0.05s; }
-    .about               { animation-delay: 0.15s; }
-    .section-header      { animation-delay: 0.25s; }
-    .proj-1              { animation-delay: 0.32s; }
-    .proj-2              { animation-delay: 0.40s; }
-    footer               { animation-delay: 0.48s; }
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
 
-    @keyframes show {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: none; }
-    }
-
-    @media (max-width: 480px) {
-      body { padding: 0 18px; }
-      a.project, .project-disabled { grid-template-columns: 42px 1fr; }
-      .project-meta { display: none; }
+      .section-title {
+        font-size: 1.8rem;
+      }
     }
   </style>
 </head>
+
 <body>
+  <div class="background-animation" id="particles"></div>
 
-  <header>
-    <span class="logo">aronn.hu</span>
-    <span class="header-right">Budapest, HU</span>
-  </header>
+  <div class="content-wrapper">
+    <section class="hero-section">
+      <div class="profile-img"></div>
+      <h1 class="hero-title">✦ Aronn ✦</h1>
+      <p class="hero-subtitle">aronn.hu</p>
+    </section>
 
-  <section class="hero">
-    <div class="avatar"></div>
-    <h1>Ar<span class="blue">onn</span></h1>
-    <p class="tagline">webfejlesztés &nbsp;<span>/</span>&nbsp; minecraft &nbsp;<span>/</span>&nbsp; egyedi projektek</p>
-  </section>
+    <section id="projects" class="container py-5">
+      <h2 class="section-title">Munkáim</h2>
+      <div class="row justify-content-center mt-5">
+        <div class="col-md-5 mb-4">
+          <div class="card text-center p-4">
+            <div class="project-icon thorn"></div>
+            <h3 class="card-title">AstralixMC</h3>
+            <p class="card-text">ComboFly PvP szerver • Egyedi menük és rendszerek • Barátságos közösség • Fejlesztés
+              alatt</p>
+            <a href="https://astralixmc.hu" class="btn btn-gradient">Megtekintés ✦</a>
+          </div>
+        </div>
 
-  <div class="about">
-    Weboldalakat és Minecraft projekteket készítek. Minden munkámba beleteszem, ami számít — részletesség, egyediség, minőség.
+        <div class="col-md-5 mb-4">
+          <div class="card text-center p-4">
+            <div class="project-icon iaronn"></div>
+            <h3 class="card-title">gifx.hu</h3>
+            <p class="card-text">Hamarosan...</p>
+            <a href="#" class="btn btn-gradient disabled">Megtekintés ✦</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>✦ &copy; 2026 Aronn. Minden jog fenntartva. ✦</p>
+    </footer>
   </div>
 
-  <div class="section-header">
-    <h2>Munkáim</h2>
-  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <a href="https://astralixmc.hu" class="project proj-1" target="_blank" rel="noopener">
-    <div class="project-thumb astralixmc"></div>
-    <div class="project-body">
-      <div class="project-name">AstralixMC</div>
-      <div class="project-desc">ComboFly PvP szerver · egyedi menük és rendszerek · aktív közösség</div>
-    </div>
-    <div class="project-meta">
-      <span class="badge badge-live">Élő</span>
-      <span class="project-url">astralixmc.hu</span>
-    </div>
-  </a>
+  <script>
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.classList.add('particle');
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 8 + 's';
+        container.appendChild(p);
+      }
+    }
+    createParticles();
 
-  <div class="project-disabled proj-2">
-    <div class="project-thumb gifxhu"></div>
-    <div class="project-body">
-      <div class="project-name">gifx.hu</div>
-      <div class="project-desc">Hamarosan...</div>
-    </div>
-    <div class="project-meta">
-      <span class="badge badge-soon">Hamarosan</span>
-    </div>
-  </div>
+    function createFallingParticle() {
+      const particle = document.createElement('div');
+      particle.classList.add('particle-effect');
+      particle.innerHTML = '✦';
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      particle.style.fontSize = (Math.random() * 0.5 + 0.8) + 'em';
 
-  <footer>
-    <span>© 2026 Aronn</span>
-    <span>minden jog fenntartva</span>
-  </footer>
+      document.body.appendChild(particle);
 
+      setTimeout(() => {
+        particle.remove();
+      }, 8000);
+    }
+
+    setInterval(createFallingParticle, 400);
+  </script>
 </body>
+
 </html>
