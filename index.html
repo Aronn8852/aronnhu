@@ -1,594 +1,295 @@
 <!DOCTYPE html>
 <html lang="hu">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="aronn.png" type="image/png">
   <title>Aronn</title>
-
   <meta name="description" content="Aronn hivatalos oldala • Webfejlesztés, projektek, Minecraft szerverek, kreatív munkák és egyedi megoldások.">
   <meta name="keywords" content="Aronn, aronn.hu, webfejlesztés, minecraft, minecraft szerver, projektek, AstralixMC, ComboFly, gifx.hu, design, fejlesztés">
   <meta name="author" content="Aronn">
   <meta name="robots" content="index, follow">
-
   <meta property="og:title" content="Aronn">
   <meta property="og:description" content="Nézd meg a munkáimat: weboldalak és Minecraft projektek">
   <meta property="og:image" content="https://aronn.hu/aronn.png">
   <meta property="og:url" content="https://aronn.hu">
   <meta property="og:type" content="website">
 
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Syne+Mono&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     :root {
-      --bg:       #07080d;
-      --surface:  #0e1018;
-      --border:   rgba(255,255,255,0.06);
-      --accent:   #4f8ef7;
-      --accent2:  #a78bfa;
-      --text:     #d4dae8;
-      --muted:    #5a637a;
-      --white:    #f0f4ff;
+      --bg: #0b0e17;
+      --blue: #3b82f6;
+      --text: #c8d3e8;
+      --dim: #4a5470;
+      --white: #eef2ff;
     }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
       background: var(--bg);
       color: var(--text);
-      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
       min-height: 100vh;
-    }
-
-    /* ── NOISE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      background-size: 200px;
-      pointer-events: none;
-      z-index: 999;
-      opacity: 0.6;
-    }
-
-    /* ── GRID LINES ── */
-    .grid-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(79,142,247,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(79,142,247,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-
-    /* ── ORBS ── */
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(120px);
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.25;
-    }
-    .orb-1 {
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, #1d3a8a, transparent);
-      top: -200px; left: -200px;
-      animation: driftOrb 18s ease-in-out infinite alternate;
-    }
-    .orb-2 {
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, #5b21b6, transparent);
-      bottom: -150px; right: -150px;
-      animation: driftOrb 22s ease-in-out infinite alternate-reverse;
-    }
-    @keyframes driftOrb {
-      from { transform: translate(0,0); }
-      to   { transform: translate(60px, 40px); }
-    }
-
-    /* ── WRAPPER ── */
-    .wrap {
-      position: relative;
-      z-index: 1;
-      max-width: 1100px;
+      padding: 0 24px;
+      max-width: 720px;
       margin: 0 auto;
-      padding: 0 32px;
     }
 
-    /* ── HEADER / NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 20px 40px;
+    header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid var(--border);
-      background: rgba(7,8,13,0.7);
-      backdrop-filter: blur(20px);
+      align-items: center;
+      padding: 32px 0 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--white);
+    .logo {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.9rem;
+      color: var(--blue);
       letter-spacing: 0.05em;
-      text-decoration: none;
     }
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: color 0.25s;
-    }
-    .nav-links a:hover { color: var(--white); }
-
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding-top: 100px;
-    }
-
-    .hero-eyebrow {
+    .header-right {
+      font-family: 'Syne Mono', monospace;
       font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 28px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
+      color: var(--dim);
     }
 
-    .hero-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(4.5rem, 12vw, 9rem);
-      font-weight: 700;
-      line-height: 0.9;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.35s forwards;
-    }
-    .hero-name span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .hero {
+      padding: 80px 0 60px;
     }
 
-    .hero-desc {
-      margin-top: 32px;
-      font-size: 1rem;
-      color: var(--muted);
-      max-width: 380px;
-      line-height: 1.7;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.5s forwards;
-    }
-
-    .hero-cta {
-      margin-top: 48px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.65s forwards;
-    }
-
-    .hero-avatar {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      border: 1px solid rgba(79,142,247,0.3);
-      box-shadow:
-        0 0 0 20px rgba(79,142,247,0.04),
-        0 0 80px rgba(79,142,247,0.2),
-        inset 0 0 40px rgba(79,142,247,0.1);
-      background: url('aronn.png') center/cover no-repeat, var(--surface);
-      animation: heroFloat 6s ease-in-out infinite;
-      display: none;
-    }
-    @keyframes heroFloat {
-      0%,100% { transform: translateY(-50%) translateY(0); }
-      50%      { transform: translateY(-50%) translateY(-14px); }
-    }
-
-    .hero-inner {
-      position: relative;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── DIVIDER ── */
-    .divider {
-      width: 60px;
-      height: 1px;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      margin: 0 auto 20px;
-    }
-
-    /* ── SECTION LABEL ── */
-    .section-label {
-      text-align: center;
-      margin-bottom: 70px;
-    }
-    .section-label .eyebrow {
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-    .section-label h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.2rem, 5vw, 3.4rem);
-      font-weight: 600;
-      color: var(--white);
-      letter-spacing: -0.01em;
-    }
-
-    /* ── PROJECTS ── */
-    #projects {
-      padding: 120px 0;
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-    }
-
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 44px 36px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.3s, transform 0.4s;
-    }
-    .project-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(79,142,247,0.07), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-    .project-card:hover {
-      border-color: rgba(79,142,247,0.35);
-      transform: translateY(-6px);
-    }
-    .project-card:hover::before { opacity: 1; }
-
-    .project-card.disabled-card {
-      opacity: 0.5;
-    }
-    .project-card.disabled-card:hover {
-      transform: none;
-      border-color: var(--border);
-    }
-    .project-card.disabled-card:hover::before { opacity: 0; }
-
-    .project-number {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 4rem;
-      font-weight: 700;
-      color: rgba(79,142,247,0.12);
-      line-height: 1;
-      margin-bottom: 28px;
-      letter-spacing: -0.04em;
-    }
-
-    .project-icon-wrap {
+    .avatar {
       width: 64px;
       height: 64px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: url('aronn.png') center/cover no-repeat, #1a2035;
+      border: 2px solid rgba(59,130,246,0.4);
+      margin-bottom: 36px;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3.2rem, 10vw, 5.5rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+    h1 .blue { color: var(--blue); }
+
+    .tagline {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--dim);
+      margin-top: 18px;
+      letter-spacing: 0.04em;
+    }
+    .tagline span { color: var(--blue); }
+
+    .about {
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      max-width: 480px;
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+
+    .section-header {
+      margin-top: 80px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-header h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--dim);
+      white-space: nowrap;
+    }
+    .section-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.05);
+    }
+
+    a.project {
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      align-items: start;
+      gap: 20px;
+      text-decoration: none;
+      color: inherit;
+    }
+    a.project:first-of-type,
+    .project-disabled:first-of-type {
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    a.project:hover .project-name { color: var(--blue); }
+
+    .project-disabled {
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      align-items: start;
+      gap: 20px;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .project-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
       background-size: cover;
       background-position: center;
-      margin-bottom: 24px;
-      position: relative;
-      z-index: 1;
+      background-color: #131828;
+      border: 1px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
     }
-    .project-icon-wrap.thorn  { background-image: url('astralixmc.png'), linear-gradient(135deg,#1a2744,#0e1018); }
-    .project-icon-wrap.gifx   { background-image: url('gifxhu.png'),     linear-gradient(135deg,#1a2744,#0e1018); }
+    .project-thumb.astralixmc { background-image: url('astralixmc.png'); }
+    .project-thumb.gifxhu     { background-image: url('gifxhu.png'); }
 
-    .project-card h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.7rem;
-      font-weight: 600;
+    .project-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
       color: var(--white);
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
+      transition: color 0.2s;
+      margin-bottom: 4px;
     }
-
-    .project-card p {
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.7;
-      flex: 1;
-      position: relative;
-      z-index: 1;
-      margin-bottom: 32px;
-    }
-
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 28px;
-      position: relative;
-      z-index: 1;
-    }
-    .tag {
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: rgba(79,142,247,0.08);
-      border: 1px solid rgba(79,142,247,0.18);
-      border-radius: 20px;
-      padding: 4px 12px;
-    }
-
-    /* ── BUTTONS ── */
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--white);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 8px;
-      padding: 12px 24px;
+    .project-desc {
       font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      text-decoration: none;
-      background: transparent;
-      transition: all 0.25s;
-      position: relative;
-      z-index: 1;
-    }
-    .btn-outline:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(79,142,247,0.07);
-    }
-    .btn-outline.btn-primary-o {
-      background: linear-gradient(135deg, var(--accent), #3b6fd4);
-      border-color: transparent;
-      color: #fff;
-    }
-    .btn-outline.btn-primary-o:hover {
-      background: linear-gradient(135deg, #6ba3ff, var(--accent));
-      color: #fff;
-      border-color: transparent;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(79,142,247,0.35);
-    }
-    .btn-outline.disabled {
-      opacity: 0.35;
-      pointer-events: none;
-      cursor: not-allowed;
+      color: var(--dim);
+      line-height: 1.5;
     }
 
-    /* ── STATUS BADGE ── */
-    .status-badge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
+    .project-meta { text-align: right; flex-shrink: 0; }
+    .badge {
+      display: inline-block;
+      font-family: 'Syne Mono', monospace;
       font-size: 0.65rem;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: 4px;
       text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 20px;
-      z-index: 2;
     }
-    .status-live {
+    .badge-live {
       color: #4ade80;
-      background: rgba(74,222,128,0.1);
-      border: 1px solid rgba(74,222,128,0.25);
+      background: rgba(74,222,128,0.08);
+      border: 1px solid rgba(74,222,128,0.2);
     }
-    .status-soon {
-      color: var(--muted);
-      background: rgba(90,99,122,0.15);
-      border: 1px solid rgba(90,99,122,0.25);
+    .badge-soon {
+      color: var(--dim);
+      background: rgba(74,82,112,0.15);
+      border: 1px solid rgba(74,82,112,0.25);
+    }
+    .project-url {
+      display: block;
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--dim);
+      margin-top: 6px;
     }
 
-    /* ── SCROLLBAR ── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: #1e2a45; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-    /* ── FOOTER ── */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 48px 0;
+      margin-top: 100px;
+      padding: 28px 0 40px;
+      border-top: 1px solid rgba(255,255,255,0.05);
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    footer p {
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    footer .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.05em;
+      align-items: center;
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--dim);
     }
 
-    /* ── HOVER LINE ── */
-    .arrow-icon {
-      transition: transform 0.25s;
-    }
-    .btn-outline:hover .arrow-icon { transform: translateX(4px); }
-
-    /* ── RESPONSIVE ── */
-    @media (min-width: 900px) {
-      .hero-avatar { display: block; }
-    }
-    @media (max-width: 768px) {
-      nav { padding: 18px 24px; }
-      .nav-links { display: none; }
-      .hero { padding-top: 80px; }
-    }
-
-    /* ── SCROLL REVEAL ── */
-    .reveal {
+    .hero, .about, .section-header, a.project, .project-disabled, footer {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      animation: show 0.5s ease forwards;
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
+    .hero                { animation-delay: 0.05s; }
+    .about               { animation-delay: 0.15s; }
+    .section-header      { animation-delay: 0.25s; }
+    .proj-1              { animation-delay: 0.32s; }
+    .proj-2              { animation-delay: 0.40s; }
+    footer               { animation-delay: 0.48s; }
+
+    @keyframes show {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: none; }
     }
-    .reveal:nth-child(2) { transition-delay: 0.1s; }
-    .reveal:nth-child(3) { transition-delay: 0.2s; }
+
+    @media (max-width: 480px) {
+      body { padding: 0 18px; }
+      a.project, .project-disabled { grid-template-columns: 42px 1fr; }
+      .project-meta { display: none; }
+    }
   </style>
 </head>
-
 <body>
-  <div class="grid-bg"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">Aronn</a>
-    <ul class="nav-links">
-      <li><a href="#projects">Munkáim</a></li>
-      <li><a href="https://astralixmc.hu">AstralixMC</a></li>
-    </ul>
-  </nav>
+  <header>
+    <span class="logo">aronn.hu</span>
+    <span class="header-right">Budapest, HU</span>
+  </header>
 
-  <!-- HERO -->
   <section class="hero">
-    <div class="wrap">
-      <div class="hero-inner">
-        <p class="hero-eyebrow">aronn.hu &mdash; Fejlesztő &amp; Alkotó</p>
-        <h1 class="hero-name">Ar<span>onn</span></h1>
-        <p class="hero-desc">Weboldalakat és Minecraft projekteket készítek. Minden munkámba beleteszem, ami fontos: részletesség, egyediség, minőség.</p>
-        <div class="hero-cta">
-          <a href="#projects" class="btn-outline btn-primary-o">
-            Munkáim
-            <svg class="arrow-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-        <div class="hero-avatar"></div>
-      </div>
-    </div>
+    <div class="avatar"></div>
+    <h1>Ar<span class="blue">onn</span></h1>
+    <p class="tagline">webfejlesztés &nbsp;<span>/</span>&nbsp; minecraft &nbsp;<span>/</span>&nbsp; egyedi projektek</p>
   </section>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="wrap">
-      <div class="section-label reveal">
-        <div class="divider"></div>
-        <p class="eyebrow">Projektek</p>
-        <h2>Munkáim</h2>
-      </div>
-
-      <div class="projects-grid">
-
-        <!-- AstralixMC -->
-        <div class="project-card reveal">
-          <span class="status-badge status-live">● Élő</span>
-          <div class="project-number">01</div>
-          <div class="project-icon-wrap thorn"></div>
-          <h3>AstralixMC</h3>
-          <p>ComboFly PvP szerver egyedi menükkel, komplex rendszerekkel és aktív közösséggel. Folyamatos fejlesztés alatt.</p>
-          <div class="project-tags">
-            <span class="tag">Minecraft</span>
-            <span class="tag">PvP</span>
-            <span class="tag">Fejlesztés</span>
-          </div>
-          <a href="https://astralixmc.hu" class="btn-outline btn-primary-o">
-            Megtekintés
-            <svg class="arrow-icon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-
-        <!-- gifx.hu -->
-        <div class="project-card disabled-card reveal">
-          <span class="status-badge status-soon">Hamarosan</span>
-          <div class="project-number">02</div>
-          <div class="project-icon-wrap gifx"></div>
-          <h3>gifx.hu</h3>
-          <p>Valami új van készülőben. Részletek hamarosan megjelennek.</p>
-          <div class="project-tags">
-            <span class="tag">Webfejlesztés</span>
-            <span class="tag">Hamarosan</span>
-          </div>
-          <a href="#" class="btn-outline disabled">
-            Hamarosan elérhető
-          </a>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <div class="wrap">
-    <footer>
-      <p>&copy; 2026 Aronn &mdash; Minden jog fenntartva.</p>
-      <span class="footer-logo">Aronn</span>
-    </footer>
+  <div class="about">
+    Weboldalakat és Minecraft projekteket készítek. Minden munkámba beleteszem, ami számít — részletesség, egyediség, minőség.
   </div>
 
-  <script>
-    // Scroll reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  <div class="section-header">
+    <h2>Munkáim</h2>
+  </div>
 
-    // Subtle cursor glow (desktop)
-    if (window.matchMedia('(pointer:fine)').matches) {
-      const glow = document.createElement('div');
-      glow.style.cssText = 'position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(79,142,247,0.06),transparent);pointer-events:none;z-index:0;transition:transform 0.12s ease;transform:translate(-50%,-50%)';
-      document.body.appendChild(glow);
-      document.addEventListener('mousemove', e => {
-        glow.style.left = e.clientX + 'px';
-        glow.style.top  = e.clientY + 'px';
-      });
-    }
-  </script>
+  <a href="https://astralixmc.hu" class="project proj-1" target="_blank" rel="noopener">
+    <div class="project-thumb astralixmc"></div>
+    <div class="project-body">
+      <div class="project-name">AstralixMC</div>
+      <div class="project-desc">ComboFly PvP szerver · egyedi menük és rendszerek · aktív közösség</div>
+    </div>
+    <div class="project-meta">
+      <span class="badge badge-live">Élő</span>
+      <span class="project-url">astralixmc.hu</span>
+    </div>
+  </a>
+
+  <div class="project-disabled proj-2">
+    <div class="project-thumb gifxhu"></div>
+    <div class="project-body">
+      <div class="project-name">gifx.hu</div>
+      <div class="project-desc">Hamarosan...</div>
+    </div>
+    <div class="project-meta">
+      <span class="badge badge-soon">Hamarosan</span>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 Aronn</span>
+    <span>minden jog fenntartva</span>
+  </footer>
+
 </body>
-
 </html>
