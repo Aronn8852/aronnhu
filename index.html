@@ -7,10 +7,8 @@
   <link rel="shortcut icon" href="aronn.png" type="image/png">
   <title>Aronn</title>
 
-  <meta name="description"
-    content="Aronn hivatalos oldala • Webfejlesztés, projektek, Minecraft szerverek, kreatív munkák és egyedi megoldások.">
-  <meta name="keywords"
-    content="Aronn, aronn.hu, webfejlesztés, minecraft, minecraft szerver, projektek, AstralixMC, ComboFly, gifx.hu, design, fejlesztés">
+  <meta name="description" content="Aronn hivatalos oldala • Webfejlesztés, projektek, Minecraft szerverek, kreatív munkák és egyedi megoldások.">
+  <meta name="keywords" content="Aronn, aronn.hu, webfejlesztés, minecraft, minecraft szerver, projektek, AstralixMC, ComboFly, gifx.hu, design, fejlesztés">
   <meta name="author" content="Aronn">
   <meta name="robots" content="index, follow">
 
@@ -20,412 +18,576 @@
   <meta property="og:url" content="https://aronn.hu">
   <meta property="og:type" content="website">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --bg:       #07080d;
+      --surface:  #0e1018;
+      --border:   rgba(255,255,255,0.06);
+      --accent:   #4f8ef7;
+      --accent2:  #a78bfa;
+      --text:     #d4dae8;
+      --muted:    #5a637a;
+      --white:    #f0f4ff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0a1628 0%, #1a2744 50%, #0f2942 100%);
-      color: #e8f1f5;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
       overflow-x: hidden;
       min-height: 100vh;
-      position: relative;
-      margin: 0;
-      padding: 0;
     }
 
-    .background-animation {
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.6;
+    }
+
+    /* ── GRID LINES ── */
+    .grid-bg {
+      position: fixed;
+      inset: 0;
       z-index: 0;
       pointer-events: none;
-      overflow: hidden;
+      background-image:
+        linear-gradient(rgba(79,142,247,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(79,142,247,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
     }
 
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.9), rgba(96, 165, 250, 0.5));
+    /* ── ORBS ── */
+    .orb {
+      position: fixed;
       border-radius: 50%;
-      animation: cosmicFloat 10s ease-in-out infinite;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
-    }
-
-    @keyframes cosmicFloat {
-
-      0%,
-      100% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
-        opacity: 0;
-      }
-
-      10%,
-      90% {
-        opacity: 1;
-      }
-
-      50% {
-        transform: translate(-80px, -150px) rotate(360deg) scale(1.5);
-      }
-    }
-
-    .particle-effect {
-      position: fixed;
-      z-index: 0;
-      color: rgba(139, 92, 246, 0.6);
-      font-size: 1.2em;
-      opacity: 0.7;
+      filter: blur(120px);
       pointer-events: none;
-      animation: drift linear forwards;
+      z-index: 0;
+      opacity: 0.25;
+    }
+    .orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #1d3a8a, transparent);
+      top: -200px; left: -200px;
+      animation: driftOrb 18s ease-in-out infinite alternate;
+    }
+    .orb-2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #5b21b6, transparent);
+      bottom: -150px; right: -150px;
+      animation: driftOrb 22s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes driftOrb {
+      from { transform: translate(0,0); }
+      to   { transform: translate(60px, 40px); }
     }
 
-    @keyframes drift {
-      to {
-        transform: translateY(100vh) translateX(50px) rotate(360deg);
-        opacity: 0;
-      }
+    /* ── WRAPPER ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px;
     }
 
-    .content-wrapper {
+    /* ── HEADER / NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(7,8,13,0.7);
+      backdrop-filter: blur(20px);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 100px;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4.5rem, 12vw, 9rem);
+      font-weight: 700;
+      line-height: 0.9;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.35s forwards;
+    }
+    .hero-name span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      margin-top: 32px;
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 380px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+
+    .hero-cta {
+      margin-top: 48px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.65s forwards;
+    }
+
+    .hero-avatar {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      border: 1px solid rgba(79,142,247,0.3);
+      box-shadow:
+        0 0 0 20px rgba(79,142,247,0.04),
+        0 0 80px rgba(79,142,247,0.2),
+        inset 0 0 40px rgba(79,142,247,0.1);
+      background: url('aronn.png') center/cover no-repeat, var(--surface);
+      animation: heroFloat 6s ease-in-out infinite;
+      display: none;
+    }
+    @keyframes heroFloat {
+      0%,100% { transform: translateY(-50%) translateY(0); }
+      50%      { transform: translateY(-50%) translateY(-14px); }
+    }
+
+    .hero-inner {
+      position: relative;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      margin: 0 auto 20px;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+    .section-label .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-label h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+
+    /* ── PROJECTS ── */
+    #projects {
+      padding: 120px 0;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 44px 36px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.4s;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(79,142,247,0.07), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .project-card:hover {
+      border-color: rgba(79,142,247,0.35);
+      transform: translateY(-6px);
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-card.disabled-card {
+      opacity: 0.5;
+    }
+    .project-card.disabled-card:hover {
+      transform: none;
+      border-color: var(--border);
+    }
+    .project-card.disabled-card:hover::before { opacity: 0; }
+
+    .project-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: rgba(79,142,247,0.12);
+      line-height: 1;
+      margin-bottom: 28px;
+      letter-spacing: -0.04em;
+    }
+
+    .project-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .project-icon-wrap.thorn  { background-image: url('astralixmc.png'), linear-gradient(135deg,#1a2744,#0e1018); }
+    .project-icon-wrap.gifx   { background-image: url('gifxhu.png'),     linear-gradient(135deg,#1a2744,#0e1018); }
+
+    .project-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 10px;
       position: relative;
       z-index: 1;
     }
 
-    .hero-section {
-      text-align: center;
-      padding: 100px 20px 60px;
-    }
-
-    .profile-img {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      border: 4px solid rgba(59, 130, 246, 0.7);
-      box-shadow: 0 0 50px rgba(59, 130, 246, 0.8), 0 0 80px rgba(96, 165, 250, 0.5);
-      background: url('aronn.png') center/cover no-repeat;
-      margin: 0 auto 30px;
-      transition: 0.3s;
-      animation: etherealGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes etherealGlow {
-
-      0%,
-      100% {
-        box-shadow: 0 0 50px rgba(59, 130, 246, 0.8), 0 0 80px rgba(96, 165, 250, 0.5);
-        filter: brightness(1);
-      }
-
-      50% {
-        box-shadow: 0 0 70px rgba(96, 165, 250, 0.9), 0 0 100px rgba(59, 130, 246, 0.6);
-        filter: brightness(1.1);
-      }
-    }
-
-    .profile-img:hover {
-      transform: scale(1.08) rotate(-3deg);
-      box-shadow: 0 0 100px rgba(59, 130, 246, 1), 0 0 120px rgba(96, 165, 250, 0.8);
-    }
-
-    .hero-title {
-      font-size: 3rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #3b82f6, #60a5fa, #06b6d4, #3b82f6);
-      background-size: 300% auto;
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: fluidGradient 4s ease-in-out infinite;
-      filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6));
-      margin-bottom: 15px;
-    }
-
-    @keyframes fluidGradient {
-
-      0%,
-      100% {
-        background-position: 0% 50%;
-      }
-
-      50% {
-        background-position: 100% 50%;
-      }
-    }
-
-    .hero-subtitle {
-      color: #cbd5e1;
-      font-size: 1.2rem;
-      text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
-    }
-
-    .section-title {
-      font-size: 2.4rem;
-      color: #dbeafe;
-      text-align: center;
-      margin-top: 80px;
-      margin-bottom: 60px;
+    .project-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      flex: 1;
       position: relative;
-      text-shadow: 0 0 25px rgba(59, 130, 246, 0.7);
-      letter-spacing: 1px;
+      z-index: 1;
+      margin-bottom: 32px;
     }
 
-    .section-title::after {
-      content: "✦";
-      position: absolute;
-      bottom: -40px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 2rem;
-      color: #3b82f6;
-      animation: starPulse 2s ease-in-out infinite;
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
     }
-
-    @keyframes starPulse {
-
-      0%,
-      100% {
-        opacity: 0.6;
-        transform: translateX(-50%) scale(1);
-      }
-
-      50% {
-        opacity: 1;
-        transform: translateX(-50%) scale(1.2);
-      }
-    }
-
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: rgba(15, 41, 66, 0.8);
-      border-radius: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #3b82f6, #60a5fa);
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, #60a5fa, #3b82f6);
-    }
-
-    * {
-      scrollbar-width: auto;
-      scrollbar-color: #3b82f6 rgba(15, 41, 66, 0.8);
-    }
-
-    .card {
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(29, 78, 216, 0.3));
-      border: 2px solid rgba(59, 130, 246, 0.5);
+    .tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(79,142,247,0.08);
+      border: 1px solid rgba(79,142,247,0.18);
       border-radius: 20px;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(15px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.2);
-      height: 100%;
+      padding: 4px 12px;
     }
 
-    .card:hover {
-      transform: translateY(-12px) scale(1.02);
-      border-color: rgba(96, 165, 250, 0.8);
-      box-shadow: 0 20px 60px rgba(59, 130, 246, 0.6), 0 0 40px rgba(96, 165, 250, 0.5);
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.6), rgba(29, 78, 216, 0.5));
-    }
-
-    .card-title {
-      color: #bfdbfe;
-      text-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
-      font-weight: 600;
-      margin-bottom: 15px;
-    }
-
-    .card-text {
-      color: #cbd5e1;
-      margin-bottom: 20px;
-    }
-
-    .project-icon {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      border: 3px solid #3b82f6;
-      box-shadow: 0 0 30px rgba(59, 130, 246, 0.7), 0 0 50px rgba(139, 92, 246, 0.4);
-      margin: 0 auto 20px;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      animation: iconFloat 3s ease-in-out infinite;
-      transition: 0.3s;
-    }
-
-    @keyframes iconFloat {
-
-      0%,
-      100% {
-        transform: translateY(0px) rotate(0deg);
-      }
-
-      50% {
-        transform: translateY(-10px) rotate(5deg);
-      }
-    }
-
-    .project-icon:hover {
-      transform: scale(1.1) rotate(10deg);
-      box-shadow: 0 0 50px rgba(59, 130, 246, 0.9), 0 0 70px rgba(139, 92, 246, 0.6);
-    }
-
-    .project-icon.thorn {
-      background-image: url('astralixmc.png');
-    }
-
-    .project-icon.iaronn {
-      background-image: url('gifxhu.png');
-    }
-
-    .btn-gradient {
-      background: linear-gradient(135deg, #3b82f6, #60a5fa);
-      border: none;
-      color: white;
-      border-radius: 12px;
-      padding: 12px 28px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
-      position: relative;
-      overflow: hidden;
+    /* ── BUTTONS ── */
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
       text-decoration: none;
-      display: inline-block;
+      background: transparent;
+      transition: all 0.25s;
+      position: relative;
+      z-index: 1;
     }
-
-    .btn-gradient::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: 0.5s;
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(79,142,247,0.07);
     }
-
-    .btn-gradient:hover::before {
-      left: 100%;
+    .btn-outline.btn-primary-o {
+      background: linear-gradient(135deg, var(--accent), #3b6fd4);
+      border-color: transparent;
+      color: #fff;
     }
-
-    .btn-gradient:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 10px 35px rgba(59, 130, 246, 0.7), 0 0 30px rgba(96, 165, 250, 0.6);
-      background: linear-gradient(135deg, #60a5fa, #3b82f6);
-      color: white;
+    .btn-outline.btn-primary-o:hover {
+      background: linear-gradient(135deg, #6ba3ff, var(--accent));
+      color: #fff;
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(79,142,247,0.35);
     }
-
-    .btn-gradient.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    .btn-outline.disabled {
+      opacity: 0.35;
       pointer-events: none;
+      cursor: not-allowed;
     }
 
+    /* ── STATUS BADGE ── */
+    .status-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      z-index: 2;
+    }
+    .status-live {
+      color: #4ade80;
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.25);
+    }
+    .status-soon {
+      color: var(--muted);
+      background: rgba(90,99,122,0.15);
+      border: 1px solid rgba(90,99,122,0.25);
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #1e2a45; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    /* ── FOOTER ── */
     footer {
-      text-align: center;
-      padding: 40px 20px;
-      border-top: 2px solid rgba(59, 130, 246, 0.3);
-      color: #94a3b8;
-      margin-top: 80px;
-      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+      padding: 48px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    footer p {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    footer .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.05em;
     }
 
+    /* ── HOVER LINE ── */
+    .arrow-icon {
+      transition: transform 0.25s;
+    }
+    .btn-outline:hover .arrow-icon { transform: translateX(4px); }
+
+    /* ── RESPONSIVE ── */
+    @media (min-width: 900px) {
+      .hero-avatar { display: block; }
+    }
     @media (max-width: 768px) {
-      .hero-title {
-        font-size: 2rem;
-      }
-
-      .section-title {
-        font-size: 1.8rem;
-      }
+      nav { padding: 18px 24px; }
+      .nav-links { display: none; }
+      .hero { padding-top: 80px; }
     }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal:nth-child(2) { transition-delay: 0.1s; }
+    .reveal:nth-child(3) { transition-delay: 0.2s; }
   </style>
 </head>
 
 <body>
-  <div class="background-animation" id="particles"></div>
+  <div class="grid-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
 
-  <div class="content-wrapper">
-    <section class="hero-section">
-      <div class="profile-img"></div>
-      <h1 class="hero-title">✦ Aronn ✦</h1>
-      <p class="hero-subtitle">aronn.hu</p>
-    </section>
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Aronn</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Munkáim</a></li>
+      <li><a href="https://astralixmc.hu">AstralixMC</a></li>
+    </ul>
+  </nav>
 
-    <section id="projects" class="container py-5">
-      <h2 class="section-title">Munkáim</h2>
-      <div class="row justify-content-center mt-5">
-        <div class="col-md-5 mb-4">
-          <div class="card text-center p-4">
-            <div class="project-icon thorn"></div>
-            <h3 class="card-title">AstralixMC</h3>
-            <p class="card-text">ComboFly PvP szerver • Egyedi menük és rendszerek • Barátságos közösség • Fejlesztés
-              alatt</p>
-            <a href="https://astralixmc.hu" class="btn btn-gradient">Megtekintés ✦</a>
-          </div>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-inner">
+        <p class="hero-eyebrow">aronn.hu &mdash; Fejlesztő &amp; Alkotó</p>
+        <h1 class="hero-name">Ar<span>onn</span></h1>
+        <p class="hero-desc">Weboldalakat és Minecraft projekteket készítek. Minden munkámba beleteszem, ami fontos: részletesség, egyediség, minőség.</p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn-outline btn-primary-o">
+            Munkáim
+            <svg class="arrow-icon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
         </div>
-
-        <div class="col-md-5 mb-4">
-          <div class="card text-center p-4">
-            <div class="project-icon iaronn"></div>
-            <h3 class="card-title">gifx.hu</h3>
-            <p class="card-text">Hamarosan...</p>
-            <a href="#" class="btn btn-gradient disabled">Megtekintés ✦</a>
-          </div>
-        </div>
+        <div class="hero-avatar"></div>
       </div>
-    </section>
+    </div>
+  </section>
 
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-label reveal">
+        <div class="divider"></div>
+        <p class="eyebrow">Projektek</p>
+        <h2>Munkáim</h2>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- AstralixMC -->
+        <div class="project-card reveal">
+          <span class="status-badge status-live">● Élő</span>
+          <div class="project-number">01</div>
+          <div class="project-icon-wrap thorn"></div>
+          <h3>AstralixMC</h3>
+          <p>ComboFly PvP szerver egyedi menükkel, komplex rendszerekkel és aktív közösséggel. Folyamatos fejlesztés alatt.</p>
+          <div class="project-tags">
+            <span class="tag">Minecraft</span>
+            <span class="tag">PvP</span>
+            <span class="tag">Fejlesztés</span>
+          </div>
+          <a href="https://astralixmc.hu" class="btn-outline btn-primary-o">
+            Megtekintés
+            <svg class="arrow-icon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <!-- gifx.hu -->
+        <div class="project-card disabled-card reveal">
+          <span class="status-badge status-soon">Hamarosan</span>
+          <div class="project-number">02</div>
+          <div class="project-icon-wrap gifx"></div>
+          <h3>gifx.hu</h3>
+          <p>Valami új van készülőben. Részletek hamarosan megjelennek.</p>
+          <div class="project-tags">
+            <span class="tag">Webfejlesztés</span>
+            <span class="tag">Hamarosan</span>
+          </div>
+          <a href="#" class="btn-outline disabled">
+            Hamarosan elérhető
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="wrap">
     <footer>
-      <p>✦ &copy; 2026 Aronn. Minden jog fenntartva. ✦</p>
+      <p>&copy; 2026 Aronn &mdash; Minden jog fenntartva.</p>
+      <span class="footer-logo">Aronn</span>
     </footer>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
   <script>
-    function createParticles() {
-      const container = document.getElementById('particles');
-      for (let i = 0; i < 40; i++) {
-        const p = document.createElement('div');
-        p.classList.add('particle');
-        p.style.left = Math.random() * 100 + '%';
-        p.style.top = Math.random() * 100 + '%';
-        p.style.animationDelay = Math.random() * 8 + 's';
-        container.appendChild(p);
-      }
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Subtle cursor glow (desktop)
+    if (window.matchMedia('(pointer:fine)').matches) {
+      const glow = document.createElement('div');
+      glow.style.cssText = 'position:fixed;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(79,142,247,0.06),transparent);pointer-events:none;z-index:0;transition:transform 0.12s ease;transform:translate(-50%,-50%)';
+      document.body.appendChild(glow);
+      document.addEventListener('mousemove', e => {
+        glow.style.left = e.clientX + 'px';
+        glow.style.top  = e.clientY + 'px';
+      });
     }
-    createParticles();
-
-    function createFallingParticle() {
-      const particle = document.createElement('div');
-      particle.classList.add('particle-effect');
-      particle.innerHTML = '✦';
-      particle.style.left = Math.random() * 100 + 'vw';
-      particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
-      particle.style.fontSize = (Math.random() * 0.5 + 0.8) + 'em';
-
-      document.body.appendChild(particle);
-
-      setTimeout(() => {
-        particle.remove();
-      }, 8000);
-    }
-
-    setInterval(createFallingParticle, 400);
   </script>
 </body>
 
