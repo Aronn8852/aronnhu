@@ -2,431 +2,823 @@
 <html lang="hu">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="aronn.png" type="image/png">
-  <title>Aronn</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <link rel="shortcut icon" href="aronn.png" type="image/png">
+    <title>Aronn</title>
+    <link rel="alternate" type="application/json+oembed" href="https://aronn.hu/oembed.json" title="Aronn">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <meta name="description"
-    content="Aronn hivatalos oldala • Webfejlesztés, projektek, Minecraft szerverek, kreatív munkák és egyedi megoldások.">
-  <meta name="keywords"
-    content="Aronn, aronn.hu, webfejlesztés, minecraft, minecraft szerver, projektek, AstralixMC, ComboFly, gifx.hu, design, fejlesztés">
-  <meta name="author" content="Aronn">
-  <meta name="robots" content="index, follow">
+        body {
+            background: #0b0e17;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            color: #f2f3f5;
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-  <meta property="og:title" content="Aronn">
-  <meta property="og:description" content="Nézd meg a munkáimat: weboldalak és Minecraft projektek">
-  <meta property="og:image" content="https://aronn.hu/aronn.png">
-  <meta property="og:url" content="https://aronn.hu">
-  <meta property="og:type" content="website">
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at 40% 30%, rgba(88, 101, 242, 0.25), transparent 60%),
+                radial-gradient(circle at 80% 70%, rgba(87, 242, 135, 0.08), transparent 50%);
+            z-index: -2;
+            pointer-events: none;
+        }
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" opacity="0.04"><path fill="%235865f2" d="M47.5,78.5c-2.8,0-5.5-1.4-7-3.8c-1.5-2.4-1.5-5.3,0-7.8l18-31.2c1.5-2.6,4.2-4.2,7.1-4.2c2.9,0,5.6,1.6,7.1,4.2l18,31.2c1.5,2.4,1.5,5.3,0,7.8c-1.5,2.4-4.2,3.8-7,3.8H47.5z M123.5,163.5c-2.8,0-5.5-1.4-7-3.8c-1.5-2.4-1.5-5.3,0-7.8l18-31.2c1.5-2.6,4.2-4.2,7.1-4.2c2.9,0,5.6,1.6,7.1,4.2l18,31.2c1.5,2.4,1.5,5.3,0,7.8c-1.5,2.4-4.2,3.8-7,3.8H123.5z M21.5,163.5c-2.8,0-5.5-1.4-7-3.8c-1.5-2.4-1.5-5.3,0-7.8l18-31.2c1.5-2.6,4.2-4.2,7.1-4.2c2.9,0,5.6,1.6,7.1,4.2l18,31.2c1.5,2.4,1.5,5.3,0,7.8c-1.5,2.4-4.2,3.8-7,3.8H21.5z"/></svg>');
+            background-repeat: repeat;
+            background-size: 35px;
+            opacity: 0.2;
+            z-index: -1;
+            pointer-events: none;
+        }
 
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0a1628 0%, #1a2744 50%, #0f2942 100%);
-      color: #e8f1f5;
-      overflow-x: hidden;
-      min-height: 100vh;
-      position: relative;
-      margin: 0;
-      padding: 0;
-    }
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(88, 101, 242, 0.3), transparent);
+            filter: blur(55px);
+            z-index: -1;
+            pointer-events: none;
+            transition: transform 0.1s ease-out;
+        }
 
-    .background-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
+        .orb-1 {
+            width: 55vw;
+            height: 55vw;
+            top: -15vh;
+            left: -20vw;
+            background: radial-gradient(circle, #5865f2, #2b2f7a);
+            opacity: 0.2;
+        }
 
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.9), rgba(96, 165, 250, 0.5));
-      border-radius: 50%;
-      animation: cosmicFloat 10s ease-in-out infinite;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
-    }
+        .orb-2 {
+            width: 45vw;
+            height: 45vw;
+            bottom: -10vh;
+            right: -15vw;
+            background: radial-gradient(circle, #57f287, #1e6938);
+            opacity: 0.12;
+        }
 
-    @keyframes cosmicFloat {
+        .container {
+            max-width: 620px;
+            width: 100%;
+            margin: 0 auto;
+            animation: floatUp 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
 
-      0%,
-      100% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
-        opacity: 0;
-      }
+        .invite-banner {
+            background: rgba(237, 66, 69, 0.2);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(237, 66, 69, 0.5);
+            border-radius: 60px;
+            padding: 0.8rem 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            display: flex;
+            /* inline-flex → flex */
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: fit-content;
+            /* auto → fit-content */
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.25s;
+            box-shadow: 0 8px 20px rgba(237, 66, 69, 0.2);
+        }
 
-      10%,
-      90% {
-        opacity: 1;
-      }
+        .invite-banner i {
+            font-size: 1.2rem;
+            color: #ed4245;
+            animation: ping 1.8s infinite;
+        }
 
-      50% {
-        transform: translate(-80px, -150px) rotate(360deg) scale(1.5);
-      }
-    }
+        .invite-banner span {
+            background: linear-gradient(135deg, #fff, #ffb9b9);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
 
-    .particle-effect {
-      position: fixed;
-      z-index: 0;
-      color: rgba(139, 92, 246, 0.6);
-      font-size: 1.2em;
-      opacity: 0.7;
-      pointer-events: none;
-      animation: drift linear forwards;
-    }
+        .card {
+            background: rgba(18, 22, 33, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            border: 1px solid rgba(88, 101, 242, 0.35);
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(88, 101, 242, 0.2) inset;
+            padding: 2rem 2rem 2rem 2rem;
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+        }
 
-    @keyframes drift {
-      to {
-        transform: translateY(100vh) translateX(50px) rotate(360deg);
-        opacity: 0;
-      }
-    }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 35px 50px -18px black;
+            border-color: rgba(88, 101, 242, 0.6);
+        }
 
-    .content-wrapper {
-      position: relative;
-      z-index: 1;
-    }
+        .profile-row {
+            display: flex;
+            gap: 1.6rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+        }
 
-    .hero-section {
-      text-align: center;
-      padding: 100px 20px 60px;
-    }
+        .avatar-wrapper {
+            position: relative;
+        }
 
-    .profile-img {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      border: 4px solid rgba(59, 130, 246, 0.7);
-      box-shadow: 0 0 50px rgba(59, 130, 246, 0.8), 0 0 80px rgba(96, 165, 250, 0.5);
-      background: url('aronn.png') center/cover no-repeat;
-      margin: 0 auto 30px;
-      transition: 0.3s;
-      animation: etherealGlow 3s ease-in-out infinite;
-    }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #2e3347;
+            box-shadow: 0 12px 25px -8px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s;
+            background: #1e2130;
+        }
 
-    @keyframes etherealGlow {
+        .avatar-wrapper:hover .avatar {
+            transform: scale(1.02);
+            border-color: #5865f2;
+        }
 
-      0%,
-      100% {
-        box-shadow: 0 0 50px rgba(59, 130, 246, 0.8), 0 0 80px rgba(96, 165, 250, 0.5);
-        filter: brightness(1);
-      }
+        .status-badge {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            background: #0b0e17;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #181e2c;
+        }
 
-      50% {
-        box-shadow: 0 0 70px rgba(96, 165, 250, 0.9), 0 0 100px rgba(59, 130, 246, 0.6);
-        filter: brightness(1.1);
-      }
-    }
+        .online-dot {
+            width: 16px;
+            height: 16px;
+            background: #57f287;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px #0b0e17;
+            animation: pulse-green 2s infinite;
+        }
 
-    .profile-img:hover {
-      transform: scale(1.08) rotate(-3deg);
-      box-shadow: 0 0 100px rgba(59, 130, 246, 1), 0 0 120px rgba(96, 165, 250, 0.8);
-    }
+        .name-section h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #ffffff, #c7ccff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
 
-    .hero-title {
-      font-size: 3rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #3b82f6, #60a5fa, #06b6d4, #3b82f6);
-      background-size: 300% auto;
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: fluidGradient 4s ease-in-out infinite;
-      filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6));
-      margin-bottom: 15px;
-    }
+        .user-tag {
+            color: #a6aad1;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(88, 101, 242, 0.2);
+            padding: 4px 12px;
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+        }
 
-    @keyframes fluidGradient {
+        .roles-container {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 10px;
+            margin: 28px 0 24px;
+            overflow-x: auto;
+            padding-top: 6px;
+            scrollbar-width: none;
+        }
 
-      0%,
-      100% {
-        background-position: 0% 50%;
-      }
+        .roles-container::-webkit-scrollbar {
+            display: none;
+        }
 
-      50% {
-        background-position: 100% 50%;
-      }
-    }
+        .role-card {
+            background: rgba(20, 24, 38, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 100px;
+            padding: 8px 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            text-decoration: none;
+            color: inherit;
+        }
 
-    .hero-subtitle {
-      color: #cbd5e1;
-      font-size: 1.2rem;
-      text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
-    }
+        .role-card i {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
 
-    .section-title {
-      font-size: 2.4rem;
-      color: #dbeafe;
-      text-align: center;
-      margin-top: 80px;
-      margin-bottom: 60px;
-      position: relative;
-      text-shadow: 0 0 25px rgba(59, 130, 246, 0.7);
-      letter-spacing: 1px;
-    }
+        .role-card:hover {
+            transform: translateY(-3px);
+            background: rgba(88, 101, 242, 0.3);
+            border-color: #5865f2;
+            color: white;
+        }
 
-    .section-title::after {
-      content: "✦";
-      position: absolute;
-      bottom: -40px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 2rem;
-      color: #3b82f6;
-      animation: starPulse 2s ease-in-out infinite;
-    }
+        .role-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
 
-    @keyframes starPulse {
+        .owner-badge .role-dot {
+            background: #ff5e5e;
+            box-shadow: 0 0 6px #ff5e5e;
+        }
 
-      0%,
-      100% {
-        opacity: 0.6;
-        transform: translateX(-50%) scale(1);
-      }
+        .admin-badge .role-dot {
+            background: #57f287;
+            box-shadow: 0 0 5px #57f287;
+        }
 
-      50% {
-        opacity: 1;
-        transform: translateX(-50%) scale(1.2);
-      }
-    }
+        .partner-badge .role-dot {
+            background: #f5c400;
+            box-shadow: 0 0 6px #f5c400;
+        }
 
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
+        .partner-badge {
+            border-color: rgba(245, 196, 0, 0.3);
+            color: #f5c400;
+        }
 
-    ::-webkit-scrollbar-track {
-      background: rgba(15, 41, 66, 0.8);
-      border-radius: 10px;
-    }
+        .partner-badge:hover {
+            background: rgba(245, 196, 0, 0.2);
+            border-color: #f5c400;
+            color: #ffe566;
+            box-shadow: 0 0 14px rgba(245, 196, 0, 0.25);
+        }
 
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #3b82f6, #60a5fa);
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
-    }
+        .partner-badge i {
+            color: #f5c400;
+            opacity: 1;
+        }
 
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, #60a5fa, #3b82f6);
-    }
+        .activity-block {
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 28px;
+            padding: 1rem 1.5rem;
+            margin: 1.2rem 0 1.6rem;
+            border-left: 4px solid #5865f2;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            overflow: hidden;
+            position: relative;
+        }
 
-    * {
-      scrollbar-width: auto;
-      scrollbar-color: #3b82f6 rgba(15, 41, 66, 0.8);
-    }
+        .activity-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(88, 101, 242, 0.15), transparent);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
 
-    .card {
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.4), rgba(29, 78, 216, 0.3));
-      border: 2px solid rgba(59, 130, 246, 0.5);
-      border-radius: 20px;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(15px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(59, 130, 246, 0.2);
-      height: 100%;
-    }
+        .activity-block:hover::before {
+            left: 100%;
+        }
 
-    .card:hover {
-      transform: translateY(-12px) scale(1.02);
-      border-color: rgba(96, 165, 250, 0.8);
-      box-shadow: 0 20px 60px rgba(59, 130, 246, 0.6), 0 0 40px rgba(96, 165, 250, 0.5);
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.6), rgba(29, 78, 216, 0.5));
-    }
+        .status-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-weight: 500;
+            color: #e0e3ff;
+        }
 
-    .card-title {
-      color: #bfdbfe;
-      text-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
-      font-weight: 600;
-      margin-bottom: 15px;
-    }
+        .status-icon-wrapper {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .card-text {
-      color: #cbd5e1;
-      margin-bottom: 20px;
-    }
+        .status-icon {
+            font-size: 1.6rem;
+            color: #5865f2;
+            transition: all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+            filter: drop-shadow(0 0 6px rgba(88, 101, 242, 0.5));
+        }
 
-    .project-icon {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      border: 3px solid #3b82f6;
-      box-shadow: 0 0 30px rgba(59, 130, 246, 0.7), 0 0 50px rgba(139, 92, 246, 0.4);
-      margin: 0 auto 20px;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      animation: iconFloat 3s ease-in-out infinite;
-      transition: 0.3s;
-    }
+        .status-text {
+            flex: 1;
+            font-size: 1rem;
+            letter-spacing: -0.2px;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+        }
 
-    @keyframes iconFloat {
+        .glow-text {
+            background: linear-gradient(120deg, #cdd1ff, #b6bbff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
 
-      0%,
-      100% {
-        transform: translateY(0px) rotate(0deg);
-      }
+        .status-exit {
+            animation: statusSlideOut 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
 
-      50% {
-        transform: translateY(-10px) rotate(5deg);
-      }
-    }
+        .status-enter {
+            animation: statusSlideIn 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.2) forwards;
+        }
 
-    .project-icon:hover {
-      transform: scale(1.1) rotate(10deg);
-      box-shadow: 0 0 50px rgba(59, 130, 246, 0.9), 0 0 70px rgba(139, 92, 246, 0.6);
-    }
+        @keyframes statusSlideOut {
+            0% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
 
-    .project-icon.thorn {
-      background-image: url('astralixmc.png');
-    }
+            100% {
+                opacity: 0;
+                transform: translateX(-20px) scale(0.95);
+            }
+        }
 
-    .project-icon.iaronn {
-      background-image: url('gifxhu.png');
-    }
+        @keyframes statusSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(30px) scale(0.92);
+            }
 
-    .btn-gradient {
-      background: linear-gradient(135deg, #3b82f6, #60a5fa);
-      border: none;
-      color: white;
-      border-radius: 12px;
-      padding: 12px 28px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
-      position: relative;
-      overflow: hidden;
-      text-decoration: none;
-      display: inline-block;
-    }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
 
-    .btn-gradient::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: 0.5s;
-    }
+        @keyframes iconPop {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.5;
+            }
 
-    .btn-gradient:hover::before {
-      left: 100%;
-    }
+            50% {
+                transform: scale(1.2) rotate(5deg);
+            }
 
-    .btn-gradient:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 10px 35px rgba(59, 130, 246, 0.7), 0 0 30px rgba(96, 165, 250, 0.6);
-      background: linear-gradient(135deg, #60a5fa, #3b82f6);
-      color: white;
-    }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
 
-    .btn-gradient.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
+        .icon-animate {
+            animation: iconPop 0.4s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+        }
 
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      border-top: 2px solid rgba(59, 130, 246, 0.3);
-      color: #94a3b8;
-      margin-top: 80px;
-      font-size: 0.9rem;
-    }
+        .status-pulse {
+            animation: statusGlow 0.6s ease-out;
+        }
 
-    @media (max-width: 768px) {
-      .hero-title {
-        font-size: 2rem;
-      }
+        @keyframes statusGlow {
+            0% {
+                border-left-color: #5865f2;
+                box-shadow: 0 0 0 0 rgba(88, 101, 242, 0.4);
+            }
 
-      .section-title {
-        font-size: 1.8rem;
-      }
-    }
-  </style>
+            50% {
+                border-left-color: #a0a8ff;
+                box-shadow: 0 0 15px 2px rgba(88, 101, 242, 0.6);
+            }
+
+            100% {
+                border-left-color: #5865f2;
+                box-shadow: 0 0 0 0 rgba(88, 101, 242, 0);
+            }
+        }
+
+        .primary-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(105deg, #5865f2, #3b459b);
+            border-radius: 50px;
+            padding: 16px 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s;
+            border: none;
+            box-shadow: 0 8px 20px rgba(88, 101, 242, 0.4);
+            margin: 28px 0 24px;
+            width: 100%;
+        }
+
+        .primary-btn i {
+            font-size: 1.2rem;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 28px rgba(88, 101, 242, 0.6);
+            background: linear-gradient(105deg, #6d78f5, #4752c4);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 22px;
+        }
+
+        .social-icon {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #cdd1ff;
+            transition: all 0.2s;
+            text-decoration: none;
+            border: 1px solid rgba(88, 101, 242, 0.2);
+        }
+
+        .social-icon:hover {
+            background: #5865f2;
+            color: white;
+            transform: translateY(-6px);
+            border-color: transparent;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            text-align: center;
+            color: #6c6f85;
+            letter-spacing: 0.3px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(87, 242, 135, 0.6);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(87, 242, 135, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(87, 242, 135, 0);
+            }
+        }
+
+        @keyframes ping {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+
+        @media (max-width: 550px) {
+            body {
+                padding: 1.2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .profile-row {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.8rem;
+            }
+
+            .roles-container {
+                justify-content: center;
+            }
+
+            .status-content {
+                gap: 10px;
+            }
+
+            .status-text {
+                font-size: 0.85rem;
+            }
+
+            .status-icon {
+                font-size: 1.3rem;
+            }
+
+            .name-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .avatar {
+                width: 85px;
+                height: 85px;
+            }
+
+            .status-badge {
+                bottom: 2px;
+                right: 2px;
+            }
+        }
+
+        .particle {
+            position: fixed;
+            background: rgba(88, 101, 242, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(1px);
+        }
+    </style>
 </head>
 
 <body>
-  <div class="background-animation" id="particles"></div>
 
-  <div class="content-wrapper">
-    <section class="hero-section">
-      <div class="profile-img"></div>
-      <h1 class="hero-title">✦ Aronn ✦</h1>
-      <p class="hero-subtitle">aronn.hu</p>
-    </section>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-    <section id="projects" class="container py-5">
-      <h2 class="section-title">Munkáim</h2>
-      <div class="row justify-content-center mt-5">
-        <div class="col-md-5 mb-4">
-          <div class="card text-center p-4">
-            <div class="project-icon thorn"></div>
-            <h3 class="card-title">AstralixMC</h3>
-            <p class="card-text">ComboFly PvP szerver • Egyedi menük és rendszerek • Barátságos közösség • Fejlesztés
-              alatt</p>
-            <a href="https://astralixmc.hu" class="btn btn-gradient">Megtekintés ✦</a>
-          </div>
+    <div class="container">
+        <div class="invite-banner">
+            <i class="fas fa-door-open"></i>
+            <span>Nincs itt semmi.</span>
+            <i class="fas fa-comments"></i>
+            <span
+                style="font-weight:800; background:white; -webkit-background-clip:text; background-clip:text; color:#ed4245;"></span>
         </div>
 
-        <div class="col-md-5 mb-4">
-          <div class="card text-center p-4">
-            <div class="project-icon iaronn"></div>
-            <h3 class="card-title">gifx.hu</h3>
-            <p class="card-text">Hamarosan...</p>
-            <a href="#" class="btn btn-gradient disabled">Megtekintés ✦</a>
-          </div>
+        <div class="card">
+            <div class="profile-row">
+                <div class="avatar-wrapper">
+                    <img src="aronn.png" alt="Aronn profile" class="avatar"
+                        onerror="this.src='https://placehold.co/100x100/2c2f3f/white?text=A'">
+                    <div class="status-badge">
+                        <div class="online-dot"></div>
+                    </div>
+                </div>
+                <div class="name-section">
+                    <h1>Aronn</h1>
+                    <div class="user-tag">
+                        <i class="fa-regular fa-circle-user"></i> aronnhu
+                        <i class="fa-regular fa-circle-check" style="color:#57f287; font-size:0.75rem;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roles-container">
+                <a href="https://discord.gg/amVzJSZ8Cd" target="_blank" class="role-card partner-badge">
+                    <span class="role-dot"></span>
+                    <span>Dunakeszi RP (EH)</span>
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="#" target="_blank" class="role-card owner-badge">
+                    <span class="role-dot"></span>
+                    <span>Hamarosan...</span>
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="#" target="_blank" class="role-card admin-badge">
+                    <span class="role-dot"></span>
+                    <span>Hamarosan...</span>
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+
+            <div class="activity-block" id="statusBlock">
+                <div class="status-content">
+                    <div class="status-icon-wrapper">
+                        <i class="fas fa-gamepad status-icon" id="statusIcon"></i>
+                    </div>
+                    <div class="status-text" id="statusText">
+                        Nézem: <strong class="glow-text">A semmit.</strong>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" class="primary-btn">
+                <i class="fas fa-comment"></i>
+                <span>Mondom, hogy nincs itt semmi.</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+
+            <div class="social-links">
+                <a href="https://discord.com/users/1410818106594689045" target="_blank" class="social-icon"
+                    aria-label="Discord">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="#" target="_blank" class="social-icon" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" target="_blank" class="social-icon" aria-label="Website">
+                    <i class="fas fa-globe"></i>
+                </a>
+            </div>
         </div>
-      </div>
-    </section>
+        <div class="footer">
+            <i class="fa-regular fa-copyright"></i> 2026 Aronn — minden jog fenntartva
+        </div>
+    </div>
 
-    <footer>
-      <p>✦ &copy; 2026 Aronn. Minden jog fenntartva. ✦</p>
-    </footer>
-  </div>
+    <script>
+        (function () {
+            const particleCount = 28;
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                const size = Math.random() * 5 + 2;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animation = `floatParticle ${Math.random() * 18 + 12}s linear infinite`;
+                p.style.opacity = Math.random() * 0.5 + 0.2;
+                document.body.appendChild(p);
+            }
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <script>
-    function createParticles() {
-      const container = document.getElementById('particles');
-      for (let i = 0; i < 40; i++) {
-        const p = document.createElement('div');
-        p.classList.add('particle');
-        p.style.left = Math.random() * 100 + '%';
-        p.style.top = Math.random() * 100 + '%';
-        p.style.animationDelay = Math.random() * 8 + 's';
-        container.appendChild(p);
+            const styleSheet = document.createElement("style");
+            styleSheet.textContent = `
+      @keyframes floatParticle {
+        0% { transform: translateY(0vh) translateX(0) rotate(0deg); opacity: 0; }
+        15% { opacity: 0.8; }
+        85% { opacity: 0.8; }
+        100% { transform: translateY(-100vh) translateX(30px) rotate(360deg); opacity: 0; }
       }
-    }
-    createParticles();
+    `;
+            document.head.appendChild(styleSheet);
 
-    function createFallingParticle() {
-      const particle = document.createElement('div');
-      particle.classList.add('particle-effect');
-      particle.innerHTML = '✦';
-      particle.style.left = Math.random() * 100 + 'vw';
-      particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
-      particle.style.fontSize = (Math.random() * 0.5 + 0.8) + 'em';
+            const statuses = [
+                { text: "🎮 Játékban: Dunakeszi RP", icon: "fa-gamepad", glow: true },
+                { text: "⚡ Aktív fejlesztés folyamatban", icon: "fa-terminal", glow: true }
+            ];
 
-      document.body.appendChild(particle);
+            let statusIdx = 0;
+            const statusTextEl = document.getElementById('statusText');
+            const statusIconEl = document.getElementById('statusIcon');
+            const activityBlock = document.getElementById('statusBlock');
 
-      setTimeout(() => {
-        particle.remove();
-      }, 8000);
-    }
+            function changeStatusWithAnimation() {
+                if (!statusTextEl || !statusIconEl) return;
 
-    setInterval(createFallingParticle, 400);
-  </script>
+                const nextStatus = statuses[(statusIdx + 1) % statuses.length];
+                const currentText = statusTextEl.innerHTML;
+
+                statusTextEl.classList.add('status-exit');
+                statusIconEl.classList.add('status-exit');
+
+                activityBlock.classList.add('status-pulse');
+
+                setTimeout(() => {
+                    let newTextContent = nextStatus.text;
+                    if (nextStatus.glow) {
+                        const emojiMatch = newTextContent.match(/^([^\w]*)(.*)/);
+                        if (emojiMatch) {
+                            const emoji = emojiMatch[1] || '';
+                            const rest = emojiMatch[2] || newTextContent;
+                            newTextContent = `${emoji} <strong class="glow-text">${rest}</strong>`;
+                        } else {
+                            newTextContent = `<strong class="glow-text">${newTextContent}</strong>`;
+                        }
+                    }
+
+                    statusTextEl.innerHTML = newTextContent;
+
+                    const iconClass = nextStatus.icon;
+                    statusIconEl.className = `fas ${iconClass} status-icon`;
+
+                    statusTextEl.classList.remove('status-exit');
+                    statusIconEl.classList.remove('status-exit');
+                    statusTextEl.classList.add('status-enter');
+                    statusIconEl.classList.add('status-enter');
+                    statusIconEl.classList.add('icon-animate');
+
+                    setTimeout(() => {
+                        statusTextEl.classList.remove('status-enter');
+                        statusIconEl.classList.remove('status-enter');
+                        statusIconEl.classList.remove('icon-animate');
+                    }, 400);
+
+                    setTimeout(() => {
+                        activityBlock.classList.remove('status-pulse');
+                    }, 600);
+
+                    statusIdx = (statusIdx + 1) % statuses.length;
+                }, 260);
+            }
+
+            setInterval(changeStatusWithAnimation, 4500);
+
+            activityBlock.addEventListener('mouseenter', () => {
+                activityBlock.style.transform = 'translateX(6px)';
+                activityBlock.style.transition = 'transform 0.2s ease';
+            });
+            activityBlock.addEventListener('mouseleave', () => {
+                activityBlock.style.transform = 'translateX(0)';
+            });
+
+            const card = document.querySelector('.card');
+            if (card) {
+                card.style.animation = 'floatUp 0.7s ease-out';
+            }
+
+            const avatarImg = document.querySelector('.avatar');
+            if (avatarImg) {
+                avatarImg.addEventListener('mouseenter', () => {
+                    avatarImg.style.transition = '0.2s';
+                    avatarImg.style.boxShadow = '0 0 0 4px #5865f2, 0 12px 28px black';
+                });
+                avatarImg.addEventListener('mouseleave', () => {
+                    avatarImg.style.boxShadow = '0 12px 25px -8px rgba(0,0,0,0.5)';
+                });
+            }
+
+            document.body.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                const orb1 = document.querySelector('.orb-1');
+                const orb2 = document.querySelector('.orb-2');
+                if (orb1) {
+                    orb1.style.transform = `translate(${x * 12}px, ${y * 12}px)`;
+                }
+                if (orb2) {
+                    orb2.style.transform = `translate(${-x * 8}px, ${-y * 8}px)`;
+                }
+            });
+
+            console.log("%c✨ Aronn Discord Hub — Elegáns, animált státuszváltással ✨", "color: #5865f2; font-size: 14px; font-weight: bold;");
+            console.log("%c⚡ A státuszok szépen, animáltan váltakoznak", "color: #57f287;");
+        })();
+    </script>
 </body>
 
 </html>
