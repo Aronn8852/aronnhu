@@ -565,6 +565,14 @@
 
             .roles-container {
                 justify-content: center;
+                flex-wrap: wrap;
+                overflow-x: visible;
+            }
+
+            .role-card {
+                flex-shrink: 1;
+                font-size: 0.78rem;
+                padding: 7px 13px;
             }
 
             .status-content {
@@ -814,9 +822,6 @@
                     orb2.style.transform = `translate(${-x * 8}px, ${-y * 8}px)`;
                 }
             });
-
-            console.log("%c✨ Aronn Discord Hub — Elegáns, animált státuszváltással ✨", "color: #5865f2; font-size: 14px; font-weight: bold;");
-            console.log("%c⚡ A státuszok szépen, animáltan váltakoznak", "color: #57f287;");
         })();
     </script>
 </body>
